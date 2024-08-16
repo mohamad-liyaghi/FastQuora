@@ -1,0 +1,26 @@
+name: Test On Kubernetes
+description: "Test the application on kubernetes using k3s"
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: debianmaster/actions-k3s@master
+      id: k3s
+      with:
+        version: 'latest'
+
+    - name: Create ConfigMap
+      run: make prod_confmap
+      shell: bash
+
+    - name: Run Kubernetes Deployments
+      run: make k8s
+      shell: bash
+
+    - name: Wait for Backend Deployments
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend-dp
+      shell: bash
+
+    - name: Run Backend Tests
+      run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- pytest
+      shell: bash
