@@ -36,7 +36,7 @@ local_confmap:
 	&& kubectl create configmap fast-quora-env-file --from-file=.env=envs/.env.local
 
 prod_confmap:
-	kubectl create configmap fast-quora-env --from-env-file=.envs/.env.prod \
+	kubectl create configmap fast-quora-env --from-env-file=envs/.env.prod \
 	&& kubectl create configmap fast-quora-env-file --from-file=.env=envs/.env.prod
 
 k8s:
