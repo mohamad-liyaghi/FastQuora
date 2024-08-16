@@ -3,8 +3,8 @@ services:
     extends:
       service: backend
       file: docker-compose.base.yaml
-    environment:
-      - ENVIRONMENT=LOCAL
+    env_file:
+        - ./envs/.env.local
 
 networks:
   main:

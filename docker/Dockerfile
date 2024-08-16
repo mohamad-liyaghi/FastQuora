@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM*.py[cod] python:3.12-alpine
 
 WORKDIR /backend
 
