@@ -8,6 +8,8 @@ services:
       dockerfile: ./docker/Dockerfile
     env_file:
         - ./envs/.env.local
+    volumes:
+      - ./envs/.env.local:/backend/.env
   postgres:
     extends:
       service: postgres

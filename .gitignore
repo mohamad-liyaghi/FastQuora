@@ -25,3 +25,4 @@ celerybeat.pid
 venv/
 .DS_Store
 TODO.md
+.env

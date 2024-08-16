@@ -6,6 +6,8 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.prod
+    volumes:
+      - ./envs/.env.prod:/backend/.env
   postgres:
     extends:
       service: postgres
