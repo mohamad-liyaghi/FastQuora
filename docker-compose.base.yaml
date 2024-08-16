@@ -9,3 +9,18 @@ services:
       - .:/backend
     networks:
       - main
+    depends_on:
+        postgres:
+          condition: service_healthy
+  postgres:
+    container_name: 'fast-quora-postgres'
+    image: 'postgres:15.4-alpine'
+    expose:
+      - "5432"
+    volumes:
+      - fast_quora_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5

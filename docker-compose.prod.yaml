@@ -6,6 +6,15 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.prod
+  postgres:
+    extends:
+      service: postgres
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.prod
 
 networks:
   main:
+
+volumes:
+  fast_quora_postgres_data:
