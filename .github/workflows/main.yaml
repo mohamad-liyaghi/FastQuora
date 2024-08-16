@@ -21,3 +21,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
           dockerhub_password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy The Code
+        uses: ./.github/actions/deploy
