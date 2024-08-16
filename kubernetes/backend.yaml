@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-quora-backend-dp
+  labels:
+    app: fast-quora-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fast-quora-backend
+  template:
+    metadata:
+      labels:
+        app: fast-quora-backend
+    spec:
+      containers:
+        - name: backend
+          image: ml06py/fast_quora:latest
+          command: ["/bin/sh"]
+          args: [ "./docker/scripts/backend.sh" ]
+
+          volumeMounts:
+            - name: env-file
+              mountPath: /envs/.env
+              subPath: .env
+          envFrom:
+            - configMapRef:
+                name: fast-quora-env
+          ports:
+            - containerPort: 8000
+
+      volumes:
+        - name: env-file
+          configMap:
+            name: fast-quora-env-file
+            items:
+              - key: .env
+                path: .env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: fast-quora-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
