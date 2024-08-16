@@ -12,6 +12,7 @@ httpcore==1.0.5
 httptools==0.6.1
 httpx==0.27.0
 idna==3.7
+iniconfig==2.0.0
 Jinja2==3.1.4
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
@@ -20,9 +21,11 @@ mypy-extensions==1.0.0
 packaging==24.1
 pathspec==0.12.1
 platformdirs==4.2.2
+pluggy==1.5.0
 pydantic==2.8.2
 pydantic_core==2.20.1
 Pygments==2.18.0
+pytest==8.3.2
 python-dotenv==1.0.1
 python-multipart==0.0.9
 PyYAML==6.0.2
