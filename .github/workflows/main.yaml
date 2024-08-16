@@ -1,10 +1,8 @@
 name: Fast Quora Deployment
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 env:
   REGISTRY: docker.io
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/fast_quora
@@ -22,8 +20,16 @@ jobs:
           dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
           dockerhub_password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-  deploy:
+  test-on-docker:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test On Docker
+        uses: ./.github/actions/test_docker
+
+  deploy:
+    needs: test-on-docker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
