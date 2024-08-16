@@ -1,0 +1,10 @@
+services:
+  backend:
+    extends:
+      service: backend
+      file: docker-compose.base.yaml
+    environment:
+      - ENVIRONMENT=LOCAL
+
+networks:
+  main:
