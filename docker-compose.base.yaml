@@ -3,9 +3,6 @@ services:
     container_name: 'fast-quora-backend'
     command: sh "docker/scripts/backend.sh"
     tty: true
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
     ports:
       - "8000:8000"
     volumes:

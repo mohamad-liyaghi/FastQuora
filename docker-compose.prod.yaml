@@ -1,5 +1,6 @@
 services:
   backend:
+    image: ml06/fast_quora:latest
     extends:
       service: backend
       file: docker-compose.base.yaml
