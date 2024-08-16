@@ -1,12 +1,30 @@
 name: "Test On Docker"
 description: "Test The Code On Docker Platform"
 
+inputs:
+  dockerhub_username:
+    description: 'Dockerhub username'
+    required: true
+  dockerhub_password:
+    description: 'Dockerhub password'
+    required: true
+  registry:
+    description: 'Docker registry'
+    required: true
+    default: 'docker.io'
 
 runs:
   using: composite
   steps:
     - name: SetUp Docker
       uses: docker/setup-buildx-action@v2
+
+    - name: Log into registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.dockerhub_username }}
+        password: ${{ inputs.dockerhub_password }}
 
     - name: Run Containers
       run: make deploy

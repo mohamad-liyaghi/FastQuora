@@ -27,6 +27,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test On Docker
         uses: ./.github/actions/test_docker
+        with:
+          registry: ${{ env.REGISTRY }}
+          dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          dockerhub_password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
   test-on-kubernetes:
     needs: build
