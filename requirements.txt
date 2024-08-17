@@ -38,6 +38,7 @@ pydantic-settings==2.4.0
 pydantic_core==2.20.1
 Pygments==2.18.0
 pytest==8.3.2
+pytest-asyncio==0.23.8
 python-decouple==3.8
 python-dotenv==1.0.1
 python-multipart==0.0.9
