@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 
-app = FastAPI(
+app: FastAPI = FastAPI(
     title="Fast Quora",
     description="FastApi Quora Project",
     version="1.0.0",
