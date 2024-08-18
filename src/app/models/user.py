@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.schema import PrimaryKeyConstraint
+from sqlalchemy.schema import PrimaryKeyConstraint, UniqueConstraint
 from uuid import UUID, uuid4
 from datetime import datetime
 from core.database import Base
@@ -7,11 +7,16 @@ from core.database import Base
 
 class User(Base):
     __tablename__ = "users"
-    __table_args__ = PrimaryKeyConstraint("id")
+    __table_args__ = (
+        PrimaryKeyConstraint("id", name="users_pkey"),
+        UniqueConstraint("uuid", name="users_uuid_key"),
+        UniqueConstraint("email", name="users_email_key"),
+        UniqueConstraint("nickname", name="users_nickname_key"),
+    )
     id: Mapped[int]
-    uuid: Mapped[UUID] = mapped_column(default_factory=uuid4, unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
-    nickname: Mapped[str] = mapped_column(unique=True)
+    uuid: Mapped[UUID] = mapped_column(default_factory=uuid4)
+    email: Mapped[str]
+    nickname: Mapped[str]
     biography: Mapped[str] = mapped_column(max_length=255, default="")
     password: Mapped[str]
     date_joined: Mapped[datetime]

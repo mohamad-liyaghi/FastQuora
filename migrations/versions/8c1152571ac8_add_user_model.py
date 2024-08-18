@@ -25,17 +25,16 @@ def upgrade() -> None:
     op.create_table(
         "users",
         sa.Column("id", sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column(
-            "uuid",
-            postgresql.UUID(as_uuid=True),
-            default=sa.text("uuid_generate_v4()"),
-            unique=True,
-        ),
-        sa.Column("email", sa.String, unique=True, nullable=False),
-        sa.Column("nickname", sa.String, unique=True, nullable=False),
+        sa.Column("uuid", postgresql.UUID(as_uuid=True), default=sa.text("uuid_generate_v4()")),
+        sa.Column("email", sa.String, nullable=False),
+        sa.Column("nickname", sa.String, nullable=False),
         sa.Column("biography", sa.String(length=255), nullable=True, server_default=""),
         sa.Column("password", sa.String, nullable=False),
         sa.Column("date_joined", sa.DateTime, nullable=False, server_default=sa.func.now()),
+        sa.PrimaryKeyConstraint("id", name="users_pkey"),
+        sa.UniqueConstraint("uuid", name="users_uuid_key"),
+        sa.UniqueConstraint("email", name="users_email_key"),
+        sa.UniqueConstraint("nickname", name="users_nickname_key"),
     )
     # ### end Alembic commands ###
 
