@@ -16,6 +16,8 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.local
+    ports:
+      - "5432:5432"
 
 networks:
   main:
