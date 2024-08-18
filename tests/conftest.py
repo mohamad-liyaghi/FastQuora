@@ -1,9 +1,9 @@
-import pytest
 import pytest_asyncio  # noqa
-import asyncio
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from core.database import get_db, Base
 from main import app
+from fixtures.repositories import database_repository  # noqa
+from fixtures.models.user import user, another_user  # noqa
 
 engine = create_async_engine("sqlite+aiosqlite:///:memory:")
 
@@ -15,13 +15,6 @@ async def override_get_db():
 
 
 app.dependency_overrides[get_db] = override_get_db  # noqa
-
-
-# @pytest.fixture(scope="session")
-# def event_loop():
-#     loop = asyncio.new_event_loop()
-#     yield loop
-#     loop.close()
 
 
 @pytest_asyncio.fixture(scope="session")

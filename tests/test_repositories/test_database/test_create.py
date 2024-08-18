@@ -1,17 +1,12 @@
 import pytest
-
 from sqlalchemy.exc import IntegrityError, PendingRollbackError
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.models import User
-from core.repositories import DatabaseRepository
 from mocks import generate_fake_user_data
 
 
 class TestDatabaseRepository:
     @pytest.fixture(autouse=True)
-    def setup(self, test_session):
-        self.repository = DatabaseRepository(model=User, session=test_session)
+    def setup(self, test_session, database_repository):
+        self.repository = database_repository
         self.data = generate_fake_user_data()
 
     @pytest.mark.asyncio
