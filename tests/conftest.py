@@ -17,11 +17,11 @@ async def override_get_db():
 app.dependency_overrides[get_db] = override_get_db  # noqa
 
 
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+# @pytest.fixture(scope="session")
+# def event_loop():
+#     loop = asyncio.new_event_loop()
+#     yield loop
+#     loop.close()
 
 
 @pytest_asyncio.fixture(scope="session")
