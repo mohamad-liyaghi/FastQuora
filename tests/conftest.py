@@ -6,10 +6,10 @@ from fixtures.repositories import database_repository  # noqa
 from fixtures.models.user import user, another_user  # noqa
 
 engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+async_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 
 async def override_get_db():
-    async_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
     async with async_session() as session:
         yield session
 

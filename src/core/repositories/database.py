@@ -17,3 +17,9 @@ class DatabaseRepository:
         self.session.add(record)
         await self.session.commit()
         return record
+
+    async def update(self, record: Type[Base], data: dict) -> Type[Base]:
+        for key, value in data.items():
+            setattr(record, key, value)
+        await self.session.commit()
+        return record
