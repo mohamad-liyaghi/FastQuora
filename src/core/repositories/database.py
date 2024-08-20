@@ -28,3 +28,7 @@ class DatabaseRepository:
             setattr(instance, key, value)
         await self.session.commit()
         return instance
+
+    async def delete(self, instance: Type[Base]) -> None:
+        await self.session.delete(instance)
+        await self.session.commit()
