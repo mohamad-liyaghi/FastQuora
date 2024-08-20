@@ -7,8 +7,8 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(env_file=".env")
-    ENVIRONMENT: str = "LOCAL"
-    DEBUG: bool = True if ENVIRONMENT == "LOCAL" else False
+    ENVIRONMENT: str
+    DEBUG: bool
     POSTGRES_DB: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
