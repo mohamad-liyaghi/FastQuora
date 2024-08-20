@@ -14,9 +14,16 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.prod
+  elastic:
+    extends:
+      service: elastic
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.prod
 
 networks:
   main:
 
 volumes:
   fast_quora_postgres_data:
+  fast_quora_elastic_data:
