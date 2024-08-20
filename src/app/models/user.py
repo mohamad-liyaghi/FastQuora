@@ -14,12 +14,12 @@ class User(Base):
         UniqueConstraint("nickname", name="users_nickname_key"),
     )
     id: Mapped[int]
-    uuid: Mapped[UUID] = mapped_column(default_factory=uuid4)
+    uuid: Mapped[UUID] = mapped_column(default=uuid4)
     email: Mapped[str]
     nickname: Mapped[str]
-    biography: Mapped[str] = mapped_column(max_length=255, default="")
+    biography: Mapped[str] = mapped_column(default="")
     password: Mapped[str]
-    date_joined: Mapped[datetime]
+    date_joined: Mapped[datetime] = mapped_column(default=datetime.now())
 
     def __repr__(self) -> str:
         return f"<User {self.email}>"

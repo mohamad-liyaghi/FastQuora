@@ -6,7 +6,6 @@ from alembic import context
 from core.settings import settings
 from core.database import Base
 
-print(settings.POSTGRES_URL)
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.POSTGRES_URL)
 
