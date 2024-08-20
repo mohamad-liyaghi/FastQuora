@@ -1,3 +1,5 @@
+from typing import Type
+from core.database import Base
 from core.repositories import DatabaseRepository
 
 
@@ -6,14 +8,14 @@ class BaseController:
         self.model = model
         self.database_repository = DatabaseRepository(model=model, session=session)
 
-    async def create(self, **kwargs):
-        return await self.database_repository.create(**kwargs)
+    async def create(self, data: dict) -> Type[Base]:
+        return await self.database_repository.create(data=data)
 
-    async def retrieve(self, **kwargs):
+    async def retrieve(self, **kwargs) -> Type[Base]:
         return await self.database_repository.retrieve(**kwargs)
 
-    async def update(self, instance, **kwargs):
-        return await self.database_repository.update(instance=instance, **kwargs)
+    async def update(self, instance: Type[Base], data: dict) -> Type[Base]:
+        return await self.database_repository.update(instance=instance, data=data)
 
-    async def delete(self, instance):
+    async def delete(self, instance: Type[Base]) -> None:
         return await self.database_repository.delete(instance=instance)
