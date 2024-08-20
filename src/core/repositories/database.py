@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 from typing import Type
 from core.database import Base
 
@@ -18,8 +19,12 @@ class DatabaseRepository:
         await self.session.commit()
         return record
 
-    async def update(self, record: Type[Base], data: dict) -> Type[Base]:
+    async def retrieve(self, **kwargs) -> Type[Base]:
+        query = await self.session.execute(select(self.model).filter_by(**kwargs))
+        return query.scalars().first()
+
+    async def update(self, instance: Type[Base], data: dict) -> Type[Base]:
         for key, value in data.items():
-            setattr(record, key, value)
+            setattr(instance, key, value)
         await self.session.commit()
-        return record
+        return instance
