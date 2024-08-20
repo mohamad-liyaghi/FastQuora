@@ -18,9 +18,16 @@ services:
       - ./envs/.env.local
     ports:
       - "5432:5432"
+  elastic:
+    extends:
+      service: elastic
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.local
 
 networks:
   main:
 
 volumes:
   fast_quora_postgres_data:
+  fast_quora_elastic_data:
