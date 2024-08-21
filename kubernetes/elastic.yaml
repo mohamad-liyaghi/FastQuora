@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fast-commerce-elastic
+  name: fast-qura-elastic
   labels:
-    app: fast-commerce-elastic
+    app: fast-qura-elastic
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fast-commerce-elastic
+      app: fast-qura-elastic
   template:
     metadata:
       labels:
-        app: fast-commerce-elastic
+        app: fast-qura-elastic
     spec:
       containers:
         - name: elastic
@@ -45,7 +45,7 @@ metadata:
   name: elastic
 spec:
   selector:
-    app: fast-commerce-elastic
+    app: fast-qura-elastic
   ports:
     - protocol: TCP
       port: 9200
