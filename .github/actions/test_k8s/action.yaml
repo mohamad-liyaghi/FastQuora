@@ -21,6 +21,10 @@ runs:
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend-dp
       shell: bash
 
+    - name: Wait for Elastic Deployments
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic-dp
+      shell: bash
+
     - name: Run Backend Tests
       run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- pytest
       shell: bash
