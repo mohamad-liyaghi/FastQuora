@@ -17,6 +17,10 @@ runs:
       run: make k8s
       shell: bash
 
+    - name: Wait for Postgres Deployments
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-postgres
+      shell: bash
+
     - name: Wait for Elastic Deployments
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic
       shell: bash
