@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from fixtures.repositories import *  # noqa
 from fixtures.models.user import *  # noqa
 from fixtures.controllers import *  # noqa
+from core.elastic import Elastic
 from core.database import get_db, Base
 from main import app
 import pytest_asyncio
@@ -14,6 +15,14 @@ def event_loop():
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def clear_elastic():
+    """
+    Clear all indices in ElasticSearch
+    """
+    await Elastic.indices.delete(index="*", ignore=[400, 404])
 
 
 @pytest_asyncio.fixture(scope="class")
