@@ -25,10 +25,6 @@ runs:
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend
       shell: bash
 
-    - name: Sleep for 20 seconds
-      run: sleep 20
-      shell: bash
-
     - name: Run Backend Tests
       run: kubectl exec -it $(kubectl get pods | grep backend | awk '{print $1}') -- pytest
       shell: bash
