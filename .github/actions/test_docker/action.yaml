@@ -30,6 +30,10 @@ runs:
       run: make deploy
       shell: bash
 
+    - name: Wait for containers to start
+      run: sleep 10
+      shell: bash
+
     - name: Run tests
       run: make test
       shell: bash
