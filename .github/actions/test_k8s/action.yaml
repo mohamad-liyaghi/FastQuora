@@ -18,11 +18,11 @@ runs:
       shell: bash
 
     - name: Wait for Backend Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend-dp
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend
       shell: bash
 
     - name: Wait for Elastic Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic-dp
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic
       shell: bash
 
     - name: Run Backend Tests

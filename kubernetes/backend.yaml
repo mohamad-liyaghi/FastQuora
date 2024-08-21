@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fast-quora-backend-dp
+  name: fast-quora-backend
   labels:
     app: fast-quora-backend
 spec:
