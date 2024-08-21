@@ -15,4 +15,7 @@ class ElasticRepository:
         if not data.get("id"):
             raise ValueError("Id is required for elastic search")
 
-        return await Elastic.index(index=self.model.__tablename__, body=data)
+        return await Elastic.index(index=self.model.__tablename__, body=data, id=data["id"])
+
+    async def retrieve(self, id: int) -> dict:
+        return await Elastic.get(index=self.model.__tablename__, id=id)
