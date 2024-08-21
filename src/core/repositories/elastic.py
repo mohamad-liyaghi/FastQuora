@@ -19,3 +19,6 @@ class ElasticRepository:
 
     async def retrieve(self, id: int) -> dict:
         return await Elastic.get(index=self.model.__tablename__, id=id)
+
+    async def update(self, id: int, data: dict) -> dict:
+        return await Elastic.update(index=self.model.__tablename__, body={"doc": data}, id=id)
