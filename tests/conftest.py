@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from fixtures.repositories import *  # noqa
+from fixtures.models.user import *  # noqa
+from fixtures.controllers import *  # noqa
 from core.database import get_db, Base
 from main import app
-from fixtures.repositories import database_repository  # noqa
-from fixtures.models.user import user, another_user  # noqa
-from fixtures.controllers import base_controller  # noqa
 import pytest_asyncio
 import pytest
 import asyncio

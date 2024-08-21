@@ -1,8 +1,7 @@
-from elasticsearch import Elasticsearch
+from elasticsearch import AsyncElasticsearch
 
-Elastic = Elasticsearch(
-    hosts=[{"host": "elastic", "port": 9200, "scheme": "https"}],
-    timeout=30,
-    max_retries=10,
+Elastic = AsyncElasticsearch(
+    hosts=[{"host": "elastic", "port": 9200, "scheme": "http"}],
+    max_retries=5,
     retry_on_timeout=True,
 )
