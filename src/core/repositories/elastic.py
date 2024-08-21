@@ -22,3 +22,6 @@ class ElasticRepository:
 
     async def update(self, id: int, data: dict) -> dict:
         return await Elastic.update(index=self.model.__tablename__, body={"doc": data}, id=id)
+
+    async def delete(self, id: int) -> dict:
+        return await Elastic.delete(index=self.model.__tablename__, id=id)
