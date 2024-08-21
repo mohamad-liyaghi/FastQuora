@@ -12,6 +12,8 @@ services:
     depends_on:
         postgres:
           condition: service_healthy
+        elastic:
+          condition: service_healthy
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'
