@@ -26,3 +26,13 @@ class User(Base):
 
     def __str__(self) -> str:
         return self.email
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "uuid": str(self.uuid),
+            "email": self.email,
+            "nickname": self.nickname,
+            "biography": self.biography,
+            "date_joined": str(self.date_joined),
+        }

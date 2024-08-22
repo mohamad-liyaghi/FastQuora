@@ -4,5 +4,5 @@ from core.controllers import BaseController
 
 
 @pytest_asyncio.fixture(scope="class")
-async def base_controller(test_session):
-    return BaseController(model=User, session=test_session)
+async def base_controller(test_session, test_redis_session):
+    return BaseController(model=User, session=test_session, redis_session=test_redis_session)

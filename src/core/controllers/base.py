@@ -1,21 +1,36 @@
-from typing import Type
+from typing import Type, Optional
 from core.database import Base
-from core.repositories import DatabaseRepository
+from core.repositories import DatabaseRepository, RedisRepository, ElasticRepository
 
 
 class BaseController:
-    def __init__(self, model, session):
+    def __init__(self, model, session, redis_session):
         self.model = model
         self.database_repository = DatabaseRepository(model=model, session=session)
+        self.redis_repository = RedisRepository(model=model, redis_session=redis_session)
+        self.elastic_repository = ElasticRepository(model=model)
 
-    async def create(self, data: dict) -> Type[Base]:
+    async def create(self, data: dict, cache: bool = False, ttl: Optional[int] = 0) -> Type[Base]:
+        if cache:
+            await self.redis_repository.create(data=data, ttl=ttl)
         return await self.database_repository.create(data=data)
 
-    async def retrieve(self, **kwargs) -> Type[Base]:
-        return await self.database_repository.retrieve(**kwargs)
+    async def retrieve(self, is_cached: bool = False, **kwargs) -> Type[Base]:
+        if is_cached:
+            record = await self.redis_repository.get(_id=kwargs.get("id"))
+            if record:
+                return self.model(**record)
+        record = await self.database_repository.retrieve(**kwargs)
+        if record:
+            await self.redis_repository.create(data=record.to_dict())
+        return record
 
-    async def update(self, instance: Type[Base], data: dict) -> Type[Base]:
+    async def update(self, instance: Type[Base], data: dict, is_cached: bool = False) -> Type[Base]:
+        if is_cached:
+            await self.redis_repository.delete(_id=instance.id)
         return await self.database_repository.update(instance=instance, data=data)
 
-    async def delete(self, instance: Type[Base]) -> None:
+    async def delete(self, instance: Type[Base], is_cached: bool = False) -> None:
+        if is_cached:
+            await self.redis_repository.delete(_id=instance.id)
         return await self.database_repository.delete(instance=instance)
