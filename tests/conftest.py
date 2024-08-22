@@ -3,6 +3,7 @@ from fixtures.repositories import *  # noqa
 from fixtures.models.user import *  # noqa
 from fixtures.controllers import *  # noqa
 from core.elastic import Elastic
+from core.redis import get_redis
 from core.database import get_db, Base
 from main import app
 import pytest_asyncio
@@ -47,3 +48,8 @@ async def test_session() -> AsyncSession:
 
     async for session in override_get_db():
         yield session
+
+
+@pytest_asyncio.fixture(scope="class")
+async def test_redis_session():
+    return await get_redis()
