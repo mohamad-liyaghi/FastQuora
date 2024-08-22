@@ -53,3 +53,11 @@ async def test_session() -> AsyncSession:
 @pytest_asyncio.fixture(scope="class")
 async def test_redis_session():
     return await get_redis()
+
+
+@pytest_asyncio.fixture(scope="class", autouse=True)
+async def flush_redis(test_redis_session):
+    """
+    Flush redis before each test
+    """
+    await test_redis_session.flushall()
