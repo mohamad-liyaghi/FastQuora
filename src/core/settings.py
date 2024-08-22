@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_URL: str
+    REDIS_URL: str
 
 
 settings: Settings = Settings()
