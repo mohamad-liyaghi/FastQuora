@@ -20,6 +20,12 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.prod
+  redis:
+    extends:
+      service: redis
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.prod
 
 networks:
   main:
