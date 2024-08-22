@@ -24,3 +24,10 @@ class RedisRepository:
 
         await self.session.set(f"{self.base_key}{_id}", json.dumps(data), ex=ttl)
         return data
+
+    async def get(self, _id: int) -> Optional[dict]:
+        """
+        Get a record from the redis
+        """
+        data = await self.session.get(f"{self.base_key}{_id}")
+        return json.loads(data) if data else None
