@@ -14,6 +14,8 @@ services:
           condition: service_healthy
         elastic:
           condition: service_healthy
+        redis:
+          condition: service_healthy
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'
@@ -28,7 +30,6 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-
   elastic:
     container_name: 'fast-quora-elastic'
     image: 'docker.elastic.co/elasticsearch/elasticsearch:7.15.2'
@@ -45,4 +46,17 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:9200"]
       interval: 30s
       timeout: 10s
+      retries: 5
+  redis:
+    restart: on-failure
+    container_name: 'fast-quora-redis'
+    image: redis:6.2-alpine
+    expose:
+      - "6379"
+    networks:
+      - main
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 2s
+      timeout: 5s
       retries: 5

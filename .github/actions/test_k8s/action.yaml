@@ -21,6 +21,10 @@ runs:
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-postgres
       shell: bash
 
+    - name: Wait for Redis Deployments
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-redis
+      shell: bash
+
     - name: Wait for Elastic Deployments
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic
       shell: bash
