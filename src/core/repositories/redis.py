@@ -31,3 +31,9 @@ class RedisRepository:
         """
         data = await self.session.get(f"{self.base_key}{_id}")
         return json.loads(data) if data else None
+
+    async def delete(self, _id: int) -> None:
+        """
+        Delete a record from the redis
+        """
+        await self.session.delete(f"{self.base_key}{_id}")
