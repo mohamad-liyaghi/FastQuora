@@ -11,10 +11,7 @@ from core.settings import settings
 def _initial_setup() -> None:
     trace.set_tracer_provider(TracerProvider(resource=Resource.create({SERVICE_NAME: "fastapi-quora"})))
     tracer_provider = trace.get_tracer_provider()
-    jaeger_exporter = JaegerExporter(
-        agent_host_name=settings.JAEGER_HOST,
-        agent_port=settings.JAEGER_PORT,
-    )
+    jaeger_exporter = JaegerExporter(agent_host_name=settings.JAEGER_HOST, agent_port=settings.JAEGER_PORT)
     tracer_provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
 
 
