@@ -29,6 +29,10 @@ runs:
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic
       shell: bash
 
+    - name: Wait for Jaeger Deployments
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-jaeger
+      shell: bash
+
     - name: Wait for Backend Deployments
       run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend
       shell: bash
