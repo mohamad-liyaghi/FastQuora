@@ -26,6 +26,12 @@ services:
       file: docker-compose.base.yaml
     env_file:
       - ./envs/.env.prod
+  jaeger:
+    extends:
+      service: jaeger
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.local
 
 networks:
   main:

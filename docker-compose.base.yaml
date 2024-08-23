@@ -16,6 +16,8 @@ services:
           condition: service_healthy
         redis:
           condition: service_healthy
+        jaeger:
+          condition: service_healthy
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'
@@ -59,4 +61,16 @@ services:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 2s
       timeout: 5s
+      retries: 5
+  jaeger:
+    container_name: 'fast-quora-jaeger'
+    image: jaegertracing/all-in-one:1.32
+    ports:
+      - "16686:16686"
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:16686"]
+      interval: 30s
+      timeout: 10s
       retries: 5
