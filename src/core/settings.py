@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     POSTGRES_URL: str
     REDIS_URL: str
+    JAEGER_HOST: str
+    JAEGER_PORT: int
 
 
 settings: Settings = Settings()
