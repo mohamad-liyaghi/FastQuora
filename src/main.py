@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
 from core.opentelemetry import setup_opentelemetry
 
 app: FastAPI = FastAPI(
@@ -10,8 +10,7 @@ app: FastAPI = FastAPI(
     redoc_url="/redoc/",
 )
 
-setup_opentelemetry()
-FastAPIInstrumentor.instrument_app(app)
+setup_opentelemetry(app)
 
 
 @app.get("/")
