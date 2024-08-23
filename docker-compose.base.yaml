@@ -17,7 +17,7 @@ services:
         redis:
           condition: service_healthy
         jaeger:
-          condition: service_healthy
+          condition: service_started
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'
@@ -69,8 +69,3 @@ services:
       - "16686:16686"
     networks:
       - main
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:16686"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
