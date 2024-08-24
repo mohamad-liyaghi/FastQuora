@@ -70,6 +70,7 @@ pydantic_core==2.20.1
 Pygments==2.18.0
 pytest==7.4.0
 pytest-asyncio==0.21.1
+pytest-env==0.6.2
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.0.1
