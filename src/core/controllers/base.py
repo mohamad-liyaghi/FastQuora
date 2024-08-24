@@ -1,4 +1,4 @@
-from typing import Type, Optional
+from typing import Type, Optional, TypeVar
 from elasticsearch import NotFoundError
 from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
@@ -6,6 +6,8 @@ from sqlalchemy.orm import DeclarativeBase
 
 from core.database import Base
 from core.repositories import DatabaseRepository, RedisRepository, ElasticRepository
+
+GenericClass = TypeVar("GenericClass", bound="Base")
 
 
 class BaseController:
@@ -21,7 +23,7 @@ class BaseController:
         cache: bool = False,
         ttl: Optional[int] = 0,
         save_elastic: bool = False,
-    ) -> Type[Base]:
+    ) -> Type[GenericClass]:
         """
         Create a new record in the database (and optionally cache and index it).
         """
@@ -39,7 +41,7 @@ class BaseController:
 
     async def retrieve(
         self, is_cached: bool = False, is_indexed: bool = False, **kwargs
-    ) -> Type[DeclarativeBase] | DeclarativeBase:
+    ) -> Type[GenericClass] | DeclarativeBase:
         """
         Retrieve a record from the database (and optionally from cache or index).
         """
@@ -69,7 +71,7 @@ class BaseController:
         data: dict,
         is_cached: bool = False,
         is_indexed: bool = False,
-    ) -> Type[Base]:
+    ) -> Type[GenericClass]:
         """
         Update a record in the database (and optionally in cache and index).
         """
