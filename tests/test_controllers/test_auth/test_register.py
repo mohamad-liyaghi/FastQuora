@@ -1,6 +1,6 @@
 import pytest
+from fastapi import HTTPException
 from mocks import generate_fake_user_data
-from app.exceptions.auth import DuplicatedEmailError
 
 
 class TestAuthController:
@@ -22,5 +22,5 @@ class TestAuthController:
     @pytest.mark.asyncio
     async def test_register_with_duplicated_email_raises_error(self, user):
         self.data["email"] = user.email
-        with pytest.raises(DuplicatedEmailError):
+        with pytest.raises(HTTPException):
             await self.controller.register(data=self.data)

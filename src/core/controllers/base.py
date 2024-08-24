@@ -27,7 +27,6 @@ class BaseController:
         """
         Create a new record in the database (and optionally cache and index it).
         """
-        print(data.get("password"), "HI")
         # Create record in the database
         database_record = await self.database_repository.create(data=data)
         data["id"] = database_record.id

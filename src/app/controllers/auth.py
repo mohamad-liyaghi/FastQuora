@@ -1,7 +1,7 @@
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
 from app.models import User
-from app.exceptions.auth import DuplicatedEmailError
 from core.controllers import BaseController
 from core.handlers import PasswordHandler
 
@@ -15,7 +15,16 @@ class AuthController(BaseController):
         data = data.copy()
 
         if await self.database_repository.retrieve(email=data.get("email")):
-            raise DuplicatedEmailError
+            raise HTTPException(
+                status_code=409,
+                detail="User with this email already exists.",
+            )
+
+        if await self.database_repository.retrieve(nickname=data.get("nickname")):
+            raise HTTPException(
+                status_code=409,
+                detail="User with this nickname already exists.",
+            )
 
         hashed_password = await PasswordHandler.hash_password(data.get("password"))
         data.pop("password")

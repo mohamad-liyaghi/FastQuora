@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from httpx import AsyncClient
 from fixtures.repositories import *  # noqa
 from fixtures.models.user import *  # noqa
 from fixtures.controllers import *  # noqa
@@ -61,3 +62,13 @@ async def flush_redis(test_redis_session):
     Flush redis before each test
     """
     await test_redis_session.flushall()
+
+
+@pytest_asyncio.fixture(scope="class")
+async def client() -> AsyncClient:
+    """
+    Create a new FastAPI AsyncClient
+    """
+
+    async with AsyncClient(app=app, base_url="http://test") as client:
+        yield client
