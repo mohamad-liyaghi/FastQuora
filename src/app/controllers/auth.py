@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
 from app.models import User
 from core.controllers import BaseController
-from core.handlers import PasswordHandler
+from core.handlers import PasswordHandler, JWTHandler
 
 
 class AuthController(BaseController):
@@ -31,3 +31,15 @@ class AuthController(BaseController):
         data.setdefault("password", hashed_password)
 
         return await self.create(data=data)
+
+    async def login(self, email: str, password: str) -> str:
+        user = await self.database_repository.retrieve(email=email)
+
+        if not user:
+            raise HTTPException(status_code=404, detail="User with this email does not exist.")
+
+        if not await PasswordHandler.verify_password(password, user.password):
+            raise HTTPException(status_code=403, detail="Invalid password.")
+
+        access_token = JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
+        return access_token
