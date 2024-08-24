@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
 from app.models import User
+from app.exceptions.auth import DuplicatedEmailError
 from core.controllers import BaseController
 from core.handlers import PasswordHandler
 
@@ -12,6 +13,10 @@ class AuthController(BaseController):
 
     async def register(self, data: dict) -> User:
         data = data.copy()
+
+        if await self.database_repository.retrieve(email=data.get("email")):
+            raise DuplicatedEmailError
+
         hashed_password = await PasswordHandler.hash_password(data.get("password"))
         data.pop("password")
         data.setdefault("password", hashed_password)

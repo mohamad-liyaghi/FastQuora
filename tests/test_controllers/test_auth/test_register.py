@@ -1,5 +1,6 @@
 import pytest
 from mocks import generate_fake_user_data
+from app.exceptions.auth import DuplicatedEmailError
 
 
 class TestAuthController:
@@ -17,3 +18,9 @@ class TestAuthController:
     async def test_register_hashes_password(self):
         user = await self.controller.register(data=self.data)
         assert user.password != self.data["password"]
+
+    @pytest.mark.asyncio
+    async def test_register_with_duplicated_email_raises_error(self, user):
+        self.data["email"] = user.email
+        with pytest.raises(DuplicatedEmailError):
+            await self.controller.register(data=self.data)
