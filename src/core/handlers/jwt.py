@@ -5,7 +5,7 @@ from core.settings import settings
 
 class JWTHandler:
     @staticmethod
-    async def create_access_token(data: dict):
+    async def create_access_token(data: dict) -> str:
         """
         Create a new access token.
         """

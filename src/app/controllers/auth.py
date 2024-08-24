@@ -41,5 +41,5 @@ class AuthController(BaseController):
         if not await PasswordHandler.verify_password(password, user.password):
             raise HTTPException(status_code=403, detail="Invalid password.")
 
-        access_token = JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
+        access_token = await JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
         return access_token

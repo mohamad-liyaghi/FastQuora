@@ -6,3 +6,8 @@ class UserRegisterRequest(BaseModel):
     nickname: str
     biography: str
     password: str
+
+
+class UserLoginRequest(BaseModel):
+    email: EmailStr
+    password: str
