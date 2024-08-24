@@ -10,6 +10,7 @@ asgiref==3.8.1
 async-timeout==4.0.3
 asyncpg==0.29.0
 attrs==24.2.0
+bcrypt==4.2.0
 black==24.8.0
 certifi==2024.7.4
 cfgv==3.4.0
@@ -57,6 +58,7 @@ opentelemetry-sdk==1.26.0
 opentelemetry-semantic-conventions==0.47b0
 opentelemetry-util-http==0.47b0
 packaging==24.1
+passlib==1.7.4
 pathspec==0.12.1
 platformdirs==4.2.2
 pluggy==1.5.0
