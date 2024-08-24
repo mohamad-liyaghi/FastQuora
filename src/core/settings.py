@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     REDIS_URL: str
     JAEGER_HOST: str
     JAEGER_PORT: int
+    SECRET_KEY: str
+    JWT_ALGORITHM: str
+    JWT_EXPIRATION_MINUETS: int
 
 
 settings: Settings = Settings()
