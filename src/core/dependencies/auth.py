@@ -1,7 +1,8 @@
 from fastapi import Depends, status, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from src.app.models import User
-from src.core.factory import Factory
+from uuid import UUID
+from app.models import User
+from core.factory import Factory
 from app.controllers import ProfileController
 
 
@@ -21,4 +22,4 @@ class AuthenticationRequired:
         """
         if not token:
             raise HTTPException(detail="Authentication required", status_code=status.HTTP_403_FORBIDDEN)
-        return await user_controller.get_by_uuid(request.user.uuid)
+        return await user_controller.get_by_uuid(UUID(request.user.uuid))
