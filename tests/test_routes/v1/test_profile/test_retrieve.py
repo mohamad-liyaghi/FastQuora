@@ -2,7 +2,6 @@ import pytest
 import pytest_asyncio
 from fastapi import status
 from uuid import uuid4
-from httpx import AsyncClient
 
 
 @pytest.mark.asyncio

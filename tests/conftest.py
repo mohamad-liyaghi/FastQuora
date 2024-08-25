@@ -80,3 +80,10 @@ async def authorized_client(user, client) -> AsyncClient:
     access_token = await JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
     client.headers.update({"Authorization": f"Bearer {access_token}"})
     return client
+
+
+@pytest_asyncio.fixture(scope="class")
+async def another_authorized_client(another_user, client) -> AsyncClient:
+    access_token = await JWTHandler.create_access_token(data={"user_uuid": str(another_user.uuid)})
+    client.headers.update({"Authorization": f"Bearer {access_token}"})
+    return client
