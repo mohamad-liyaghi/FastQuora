@@ -6,6 +6,7 @@ from fixtures.controllers import *  # noqa
 from core.elastic import Elastic
 from core.redis import get_redis
 from core.database import get_db, Base
+from core.handlers import JWTHandler
 from main import app
 import pytest_asyncio
 import pytest
@@ -72,3 +73,10 @@ async def client() -> AsyncClient:
 
     async with AsyncClient(app=app, base_url="http://test") as client:
         yield client
+
+
+@pytest_asyncio.fixture(scope="class")
+async def authorized_client(user, client) -> AsyncClient:
+    access_token = await JWTHandler.create_access_token(data={"user_uuid": str(user.uuid)})
+    client.headers.update({"Authorization": f"Bearer {access_token}"})
+    return client
