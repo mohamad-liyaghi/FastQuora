@@ -39,9 +39,7 @@ class BaseController:
 
         return database_record
 
-    async def retrieve(
-        self, is_cached: bool = False, is_indexed: bool = False, **kwargs
-    ) -> Type[GenericClass] | DeclarativeBase:
+    async def retrieve(self, is_cached: bool = False, is_indexed: bool = False, **kwargs) -> Type[GenericClass]:
         """
         Retrieve a record from the database (and optionally from cache or index).
         """
