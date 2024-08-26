@@ -14,7 +14,7 @@ class QuestionController(BaseController):
 
     async def retrieve_by_uuid(self, uuid: UUID) -> Question:
         # TODO: list of acceptable statuses
-        question = await self.retrieve(uuid=uuid, status=QuestionStatus.OPEN.value)
+        question = await self.retrieve(uuid=uuid, status=QuestionStatus.OPEN.value, check_cache=True)
         if not question:
             raise HTTPException(status_code=404, detail="Question not found")
         return question
