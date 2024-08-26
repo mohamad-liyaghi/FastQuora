@@ -18,3 +18,7 @@ class QuestionCreateResponse(BaseQuestionResponse):
 
 class QuestionRetrieveResponse(BaseQuestionResponse):
     ...
+
+
+class QuestionUpdateResponse(BaseQuestionResponse):
+    ...

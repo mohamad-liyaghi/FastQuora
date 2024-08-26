@@ -5,10 +5,11 @@ from uuid import UUID
 from app.controllers import QuestionController
 from app.models import User
 from core.dependencies import AuthenticationRequired
-from app.schemas.requests.question import QuestionCreateRequest
+from app.schemas.requests.question import QuestionCreateRequest, QuestionUpdateRequest
 from app.schemas.responses.question import (
     QuestionCreateResponse,
     QuestionRetrieveResponse,
+    QuestionUpdateResponse,
 )
 
 
@@ -37,6 +38,18 @@ async def retrieve_question(
 ) -> QuestionRetrieveResponse:
     """Retrieve a question by its uuid."""
     return await question_controller.retrieve_by_uuid(uuid=question_uuid)
+
+
+@router.put("/{question_uuid}", status_code=status.HTTP_200_OK)
+async def update_question(
+    question_uuid: UUID,
+    request: QuestionUpdateRequest,
+    question_controller: QuestionController = Depends(Factory().get_question_controller),
+    user: User = Depends(AuthenticationRequired()),
+) -> QuestionUpdateResponse:
+    """Update a question by its uuid."""
+    data = request.model_dump()
+    return await question_controller.update_question(uuid=question_uuid, data=data, user_id=user.id)
 
 
 @router.delete("/{question_uuid}", status_code=status.HTTP_204_NO_CONTENT)
