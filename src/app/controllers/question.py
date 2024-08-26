@@ -4,6 +4,7 @@ from uuid import UUID
 from redis import Redis
 from app.models import Question
 from core.controllers import BaseController
+from app.enums.question import QuestionStatus
 
 
 class QuestionController(BaseController):
@@ -12,7 +13,8 @@ class QuestionController(BaseController):
         super().__init__(model=self.model, session=session, redis_session=redis_session)
 
     async def retrieve_by_uuid(self, uuid: UUID) -> Question:
-        question = await self.retrieve(uuid=uuid)
+        # TODO: list of acceptable statuses
+        question = await self.retrieve(uuid=uuid, status=QuestionStatus.OPEN.value)
         if not question:
             raise HTTPException(status_code=404, detail="Question not found")
         return question
@@ -26,7 +28,7 @@ class QuestionController(BaseController):
         if question.user_id != user_id:
             raise HTTPException(status_code=403, detail="Forbidden")
 
-        await self.delete(question)
+        await self.update(question, data={"status": QuestionStatus.DELETED.value})
         return
 
     async def update_question(self, uuid: UUID, data: dict, user_id: int) -> Question:
