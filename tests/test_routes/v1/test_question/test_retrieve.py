@@ -6,7 +6,7 @@ from uuid import uuid4
 
 
 @pytest.mark.asyncio
-class TestRetrieveQuestion:
+class TestRetrieveQuestionRoute:
     @pytest_asyncio.fixture(autouse=True)
     async def setup_method(self, client: AsyncClient, question) -> None:
         self.url = f"v1/questions/{question.uuid}"

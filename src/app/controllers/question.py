@@ -16,3 +16,11 @@ class QuestionController(BaseController):
         if not question:
             raise HTTPException(status_code=404, detail="Question not found")
         return question
+
+    async def delete_question(self, uuid: UUID, user_id: int) -> None:
+        question = await self.retrieve_by_uuid(uuid=uuid)
+        if question.user_id != user_id:
+            raise HTTPException(status_code=403, detail="Forbidden")
+
+        await self.delete(question)
+        return

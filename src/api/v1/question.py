@@ -37,3 +37,14 @@ async def retrieve_question(
 ) -> QuestionRetrieveResponse:
     """Retrieve a question by its uuid."""
     return await question_controller.retrieve_by_uuid(uuid=question_uuid)
+
+
+@router.delete("/{question_uuid}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_question(
+    question_uuid: UUID,
+    question_controller: QuestionController = Depends(Factory().get_question_controller),
+    user: User = Depends(AuthenticationRequired()),
+) -> None:
+    """Delete a question by its uuid."""
+    await question_controller.delete_question(uuid=question_uuid, user_id=user.id)
+    return
