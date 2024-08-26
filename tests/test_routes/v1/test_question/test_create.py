@@ -5,7 +5,7 @@ from httpx import AsyncClient
 
 
 @pytest.mark.asyncio
-class TestRegisterRoute:
+class TestCreateQuestionRoute:
     @pytest_asyncio.fixture(autouse=True)
     async def setup_method(self, client: AsyncClient) -> None:
         self.data = {
