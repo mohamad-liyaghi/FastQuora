@@ -28,7 +28,7 @@ class QuestionController(BaseController):
         if question.user_id != user_id:
             raise HTTPException(status_code=403, detail="Forbidden")
 
-        await self.update(question, data={"status": QuestionStatus.DELETED.value})
+        await self.update(question, data={"status": QuestionStatus.DELETED.value}, check_cache=True)
         return
 
     async def update_question(self, uuid: UUID, data: dict, user_id: int) -> Question:
@@ -40,4 +40,4 @@ class QuestionController(BaseController):
         if question.user_id != user_id:
             raise HTTPException(status_code=403, detail="Forbidden")
 
-        return await self.update(question, data=data)
+        return await self.update(question, data=data, check_cache=True)
