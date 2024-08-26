@@ -12,7 +12,7 @@ class ProfileController(BaseController):
         super().__init__(model=self.model, session=session, redis_session=redis_session)
 
     async def get_by_uuid(self, uuid: UUID) -> User:
-        user = await self.retrieve(uuid=uuid)
+        user = await self.retrieve(uuid=uuid, check_cache=True)
         if not user:
             raise HTTPException(status_code=404, detail="User not found.")
         return user
@@ -22,8 +22,6 @@ class ProfileController(BaseController):
             raise HTTPException(status_code=400, detail="No data provided to update the user.")
 
         user = await self.get_by_uuid(user_uuid)
-        print(user)
-        print(requesting_user)
         if user.uuid != requesting_user.uuid:
             raise HTTPException(status_code=403, detail="You are not allowed to update this user.")
 

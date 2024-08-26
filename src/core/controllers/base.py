@@ -21,7 +21,7 @@ class BaseController:
         self,
         data: dict,
         cache: bool = False,
-        ttl: Optional[int] = 0,
+        ttl: Optional[int] = 120,
         save_elastic: bool = False,
     ) -> Type[GenericClass]:
         """
@@ -97,7 +97,7 @@ class BaseController:
         await self.database_repository.delete(instance=instance)
 
     # Private helper methods
-    async def _cache_record(self, data: dict, cache: bool, ttl: Optional[int] = 0):
+    async def _cache_record(self, data: dict, cache: bool, ttl: Optional[int] = 120):
         if cache:
             await self.redis_repository.create(data=data, ttl=ttl)
 
