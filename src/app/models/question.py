@@ -17,7 +17,7 @@ class Question(Base):
     user_id: Mapped[int]
     title: Mapped[str]
     content: Mapped[str]
-    status: Mapped[QuestionStatus] = mapped_column(default=QuestionStatus.OPEN.value)
+    status: Mapped[str] = mapped_column(default=QuestionStatus.OPEN.value)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
     updated_at: Mapped[datetime] = mapped_column(default=datetime.now())
 

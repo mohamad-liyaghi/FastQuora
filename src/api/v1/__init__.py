@@ -5,5 +5,5 @@ from .question import router as question_router
 
 v1_router = APIRouter()
 v1_router.include_router(auth_router, prefix="/auth")
-v1_router.include_router(profile_router, prefix="/profile")
-v1_router.include_router(question_router, prefix="/question")
+v1_router.include_router(profile_router, prefix="/profiles")
+v1_router.include_router(question_router, prefix="/questions")
