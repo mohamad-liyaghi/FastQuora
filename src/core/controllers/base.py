@@ -39,18 +39,18 @@ class BaseController:
 
         return database_record
 
-    async def retrieve(self, is_cached: bool = False, is_indexed: bool = False, **kwargs) -> Type[GenericClass]:
+    async def retrieve(self, check_cache: bool = False, check_index: bool = False, **kwargs) -> Type[GenericClass]:
         """
         Retrieve a record from the database (and optionally from cache or index).
         """
         # Attempt to retrieve from cache
-        if is_cached:
+        if check_cache:
             record = await self._retrieve_from_cache(kwargs.get("id"))
             if record:
                 return record
 
         # Attempt to retrieve from Elasticsearch
-        if is_indexed:
+        if check_index:
             record = await self._retrieve_from_elastic(kwargs.get("id"))
             if record:
                 return record
@@ -58,8 +58,8 @@ class BaseController:
         # Fallback to retrieve from the database
         record = await self.database_repository.retrieve(**kwargs)
         if record:
-            await self._cache_record(record.to_dict(), is_cached)
-            await self._index_record(record.to_dict(), is_indexed)
+            await self._cache_record(record.to_dict(), check_cache)
+            await self._index_record(record.to_dict(), check_index)
 
         return record
 
@@ -67,26 +67,31 @@ class BaseController:
         self,
         instance: Type[Base],
         data: dict,
-        is_cached: bool = False,
-        is_indexed: bool = False,
+        check_cache: bool = False,
+        check_index: bool = False,
     ) -> Type[GenericClass]:
         """
         Update a record in the database (and optionally in cache and index).
         """
         # Clear the cache and update the index if required
-        await self._clear_cache(instance.id, is_cached)
-        await self._update_elastic(instance.id, data, is_indexed)
+        await self._clear_cache(instance.id, check_cache)
+        await self._update_elastic(instance.id, data, check_index)
 
         # Update the record in the database
         return await self.database_repository.update(instance=instance, data=data)
 
-    async def delete(self, instance: Type[Base], is_cached: bool = False, is_indexed: bool = False) -> None:
+    async def delete(
+        self,
+        instance: Type[Base],
+        delete_cache: bool = False,
+        delete_index: bool = False,
+    ) -> None:
         """
         Delete a record from the database (and optionally from cache and index).
         """
         # Clear the cache and delete from index if required
-        await self._clear_cache(instance.id, is_cached)
-        await self._delete_from_elastic(instance.id, is_indexed)
+        await self._clear_cache(instance.id, delete_cache)
+        await self._delete_from_elastic(instance.id, delete_index)
 
         # Delete the record from the database
         await self.database_repository.delete(instance=instance)
