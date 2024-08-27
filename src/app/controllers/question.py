@@ -13,9 +13,8 @@ class QuestionController(BaseController):
         super().__init__(model=self.model, session=session, redis_session=redis_session)
 
     async def retrieve_by_uuid(self, uuid: UUID) -> Question:
-        # TODO: list of acceptable statuses
-        question = await self.retrieve(uuid=uuid, status=QuestionStatus.OPEN.value, check_cache=True)
-        if not question:
+        question = await self.retrieve(uuid=uuid, check_cache=True)
+        if not question or question.status == QuestionStatus.DELETED.value:
             raise HTTPException(status_code=404, detail="Question not found")
         return question
 
