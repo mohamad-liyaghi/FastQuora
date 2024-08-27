@@ -21,7 +21,7 @@ class QuestionController(BaseController):
     async def delete_question(self, uuid: UUID, user_id: int) -> None:
         question = await self.retrieve_by_uuid(uuid=uuid)
 
-        if not question:
+        if not question or question.status == QuestionStatus.DELETED.value:
             raise HTTPException(status_code=404, detail="Question not found")
 
         if question.user_id != user_id:
@@ -33,7 +33,7 @@ class QuestionController(BaseController):
     async def update_question(self, uuid: UUID, data: dict, user_id: int) -> Question:
         question = await self.retrieve_by_uuid(uuid=uuid)
 
-        if not question:
+        if not question or question.status == QuestionStatus.DELETED.value:
             raise HTTPException(status_code=404, detail="Question not found")
 
         if question.user_id != user_id:
