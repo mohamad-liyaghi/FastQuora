@@ -21,6 +21,14 @@ class AnswerController(BaseController):
         data["question_id"] = question.id
         return await self.create(data=data)
 
+    async def update_answer(self, uuid: UUID, data: dict, request_user_id: int) -> Answer:
+        answer = await self.retrieve(uuid=uuid, user_id=request_user_id)
+
+        if not answer:
+            raise HTTPException(status_code=404, detail="Answer not found.")
+
+        return await self.update(answer, data=data)
+
     async def delete_answer(self, uuid: UUID, request_user_id: int) -> None:
         answer = await self.retrieve(uuid=uuid)
 
