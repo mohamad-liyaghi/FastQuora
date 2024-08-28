@@ -1,5 +1,10 @@
 from fastapi import Depends
-from app.controllers import AuthController, ProfileController, QuestionController
+from app.controllers import (
+    AuthController,
+    ProfileController,
+    QuestionController,
+    AnswerController,
+)
 from core.database import get_db
 from core.redis import get_redis
 
@@ -31,3 +36,10 @@ class Factory:
         Returns a QuestionController instance
         """
         return QuestionController(redis_session=redis, session=db)
+
+    @staticmethod
+    def get_answer_controller(db: Depends = Depends(get_db), redis: Depends = Depends(get_redis)) -> AnswerController:
+        """
+        Returns a AnswerController instance
+        """
+        return AnswerController(redis_session=redis, session=db)

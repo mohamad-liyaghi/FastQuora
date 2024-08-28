@@ -1,8 +1,7 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from httpx import AsyncClient
 from fixtures.repositories import *  # noqa
-from fixtures.models.user import *  # noqa
-from fixtures.models.question import *  # noqa
+from fixtures.models import *  # noqa
 from fixtures.controllers import *  # noqa
 from core.elastic import Elastic
 from core.redis import get_redis
