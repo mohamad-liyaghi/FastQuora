@@ -1,5 +1,6 @@
 from fastapi.routing import APIRouter
 from fastapi import Depends, status
+from uuid import UUID
 from core.factory import Factory
 from app.controllers import AnswerController, QuestionController
 from app.schemas.requests.answer import AnswerCreateRequest
@@ -26,3 +27,13 @@ async def create_answer(
     return await answer_controller.create_answer(
         question_controller=question_controller, question_uuid=question_uuid, data=data
     )
+
+
+@router.delete("/{answer_uuid}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_answer(
+    answer_uuid: UUID,
+    answer_controller: AnswerController = Depends(Factory().get_answer_controller),
+    user: User = Depends(AuthenticationRequired()),
+) -> None:
+    """Delete an answer by its uuid."""
+    await answer_controller.delete_answer(uuid=answer_uuid, request_user_id=user.id)

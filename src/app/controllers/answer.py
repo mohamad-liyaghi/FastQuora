@@ -20,3 +20,13 @@ class AnswerController(BaseController):
 
         data["question_id"] = question.id
         return await self.create(data=data)
+
+    async def delete_answer(self, uuid: UUID, request_user_id: int) -> None:
+        answer = await self.retrieve(uuid=uuid)
+
+        if not answer:
+            raise HTTPException(status_code=404, detail="Answer not found.")
+
+        if answer.user_id != request_user_id:
+            raise HTTPException(status_code=403, detail="You are not allowed to delete this answer.")
+        await self.update(answer, data={"is_deleted": True})
