@@ -1,6 +1,5 @@
 import pytest
 import pytest_asyncio
-from app.models import User
 
 
 class TestBaseController:
