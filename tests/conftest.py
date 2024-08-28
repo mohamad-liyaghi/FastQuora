@@ -3,6 +3,7 @@ from httpx import AsyncClient
 from fixtures.repositories import *  # noqa
 from fixtures.models.user import *  # noqa
 from fixtures.models.question import *  # noqa
+from fixtures.models.answer import *  # noqa
 from fixtures.controllers import *  # noqa
 from core.elastic import Elastic
 from core.redis import get_redis
