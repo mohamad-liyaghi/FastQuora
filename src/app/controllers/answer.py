@@ -15,7 +15,10 @@ class AnswerController(BaseController):
 
     async def create_answer(self, question_controller: QuestionController, question_uuid: UUID, data: dict) -> Answer:
         question = await question_controller.retrieve_by_uuid(uuid=question_uuid)
-        if question.status in [QuestionStatus.CLOSED, QuestionStatus.DELETED]:
+        if question.status in [
+            QuestionStatus.CLOSED.value,
+            QuestionStatus.DELETED.value,
+        ]:
             raise HTTPException(status_code=400, detail="Question is closed or deleted.")
 
         data["question_id"] = question.id
