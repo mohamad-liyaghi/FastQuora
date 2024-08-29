@@ -18,23 +18,23 @@ runs:
       shell: bash
 
     - name: Wait for Postgres Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-postgres
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-postgres-dp
       shell: bash
 
     - name: Wait for Redis Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-redis
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-redis-dp
       shell: bash
 
     - name: Wait for Elastic Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-elastic-dp
       shell: bash
 
     - name: Wait for Jaeger Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-jaeger
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-jaeger-dp
       shell: bash
 
     - name: Wait for Backend Deployments
-      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend
+      run: kubectl wait --for=condition=available --timeout=60s deployment/fast-quora-backend-dp
       shell: bash
 
     - name: Run Backend Tests

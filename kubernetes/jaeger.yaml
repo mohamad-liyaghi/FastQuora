@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fast-quora-jaeger
+  name: fast-quora-jaeger-dp
   labels:
     app: fast-quora-jaeger
 spec:

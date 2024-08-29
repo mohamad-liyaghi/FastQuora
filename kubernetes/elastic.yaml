@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fast-quora-elastic
+  name: fast-quora-elastic-dp
   labels:
     app: fast-quora-elastic
 spec:
