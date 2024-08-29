@@ -1,24 +1,8 @@
-apiVersion: v1
-kind: Service
-
-metadata:
-  name: fast-quora-postgres-dp
-  labels:
-    app: fast-quora-postgres
-
-spec:
-  ports:
-    - port: 5432
-      targetPort: 5432
-  selector:
-    app: fast-quora-postgres
-
----
 apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: fast-quora-postgres
+  name: fast-quora-postgres-dp
   labels:
     app: fast-quora-postgres
 
@@ -40,3 +24,19 @@ spec:
           envFrom:
             - configMapRef:
                 name: fast-quora-env
+---
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: postgres
+  labels:
+    app: fast-quora-postgres
+
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: fast-quora-postgres
