@@ -20,3 +20,14 @@ class TestAnswerUpdate:
 
         assert exc.value.status_code == 404
         assert exc.value.detail == "Answer not found."
+
+    @pytest.mark.asyncio
+    async def test_update_by_owner_succeeds(self, test_session):
+        new_content = "New content"
+        await self.controller.update_answer(
+            uuid=self.answer.uuid,
+            data={"content": new_content},
+            request_user_id=self.answer.user_id,
+        )
+        answer = await self.controller.retrieve(uuid=self.answer.uuid)
+        assert answer.content == new_content
