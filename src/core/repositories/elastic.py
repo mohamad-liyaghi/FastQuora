@@ -25,3 +25,6 @@ class ElasticRepository:
 
     async def delete(self, id: int) -> dict:
         return await Elastic.delete(index=self.model.__tablename__, id=id)
+
+    async def search(self, query: dict) -> dict:
+        return await Elastic.search(index=self.model.__tablename__, body=query)
