@@ -1,5 +1,4 @@
 import pytest
-from elasticsearch import NotFoundError
 
 
 class TestElasticRepository:

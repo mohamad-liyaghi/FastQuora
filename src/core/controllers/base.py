@@ -96,6 +96,12 @@ class BaseController:
         # Delete the record from the database
         await self.database_repository.delete(instance=instance)
 
+    async def search_elastic(self, query: dict) -> dict:
+        """
+        Search for records in Elasticsearch.
+        """
+        return await self.elastic_repository.search(query)
+
     # Private helper methods
     async def _cache_record(self, data: dict, cache: bool, ttl: Optional[int] = 120):
         if cache:
