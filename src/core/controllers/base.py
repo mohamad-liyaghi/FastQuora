@@ -100,7 +100,10 @@ class BaseController:
         """
         Search for records in Elasticsearch.
         """
-        return await self.elastic_repository.search(query)
+        try:
+            return await self.elastic_repository.search(query)
+        except NotFoundError:
+            return
 
     # Private helper methods
     async def _cache_record(self, data: dict, cache: bool, ttl: Optional[int] = 120):
