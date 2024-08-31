@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import selectinload
 
 from typing import Type
 from core.database import Base
@@ -21,12 +21,13 @@ class DatabaseRepository:
         await self.session.commit()
         return record
 
-    async def retrieve(self, join_fields: list[str] | None = None, **kwargs) -> Type[Base]:
+    async def retrieve(self, join_fields: list | None = None, **kwargs) -> Type[Base]:
         query = select(self.model)
-        # If join_fields is provided, then we will join the fields
+
         if join_fields:
             for field in join_fields:
-                query = query.options(joinedload(field))
+                query = query.options(selectinload(getattr(self.model, field)))
+
         query = query.filter_by(**kwargs)
         result = await self.session.execute(query)
         return result.scalars().first()

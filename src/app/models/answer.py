@@ -1,4 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import PrimaryKeyConstraint, UniqueConstraint
 from uuid import UUID, uuid4
 from datetime import datetime
@@ -11,14 +12,16 @@ class Answer(Base):
         PrimaryKeyConstraint("id", name="answers_pkey"),
         UniqueConstraint("uuid", name="answers_uuid_key"),
     )
-    id: Mapped[int]
-    uuid: Mapped[UUID] = mapped_column(default=uuid4)
-    user_id: Mapped[int]
-    question_id: Mapped[int]
-    content: Mapped[str]
+    id: Mapped[int] = mapped_column(primary_key=True)
+    uuid: Mapped[UUID] = mapped_column(default=uuid4, unique=True)
+    user_id: Mapped[int] = mapped_column()
+    question_id: Mapped[int] = mapped_column(ForeignKey("questions.id", ondelete="CASCADE"))  # Specify ForeignKey here
+    content: Mapped[str] = mapped_column()
     is_deleted: Mapped[bool] = mapped_column(default=False)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
     updated_at: Mapped[datetime] = mapped_column(default=datetime.now())
+
+    question = relationship("Question", back_populates="answers")
 
     def __repr__(self) -> str:
         return f"<Answer {self.content}>"
