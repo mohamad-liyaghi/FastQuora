@@ -4,6 +4,6 @@ description: "Deploy The Code On Cloud"
 runs:
   using: composite
   steps:
-    - name: Fake Deployment
+    - name: Deployment
       run: echo "Deploying the service to the cloud..."
       shell: bash
