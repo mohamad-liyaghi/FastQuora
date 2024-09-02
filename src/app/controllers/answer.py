@@ -55,3 +55,10 @@ class AnswerController(BaseController):
 
         data["parent_id"] = parent.id
         return await self.create(data=data)
+
+    async def retrieve_replies(self, parent_uuid: UUID) -> list[Answer]:
+        parent = await self.retrieve(uuid=parent_uuid, is_deleted=False)
+        if not parent:
+            raise HTTPException(status_code=404, detail="Parent answer not found.")
+
+        return await self.retrieve(parent_id=parent.id, is_deleted=False)
