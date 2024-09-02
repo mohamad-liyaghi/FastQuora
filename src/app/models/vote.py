@@ -6,10 +6,7 @@ from core.database import Base
 
 class Vote(Base):
     __tablename__ = "votes"
-    __table_args__ = (
-        PrimaryKeyConstraint("id", name="votes_pkey"),
-        UniqueConstraint("uuid", name="votes_uuid_key"),
-    )
+    __table_args__ = (PrimaryKeyConstraint("id", name="votes_pkey"),)
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column()
     answer_id: Mapped[int] = mapped_column()

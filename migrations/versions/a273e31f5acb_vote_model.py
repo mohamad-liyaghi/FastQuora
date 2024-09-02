@@ -29,7 +29,6 @@ def upgrade() -> None:
         sa.Column("vote_type", sa.String(), nullable=False, server_default="up"),
         sa.Column("uuid", postgresql.UUID(as_uuid=True), nullable=False, unique=True),
         sa.PrimaryKeyConstraint("id", name="votes_pkey"),
-        sa.UniqueConstraint("uuid", name="votes_uuid_key"),
     )
 
 

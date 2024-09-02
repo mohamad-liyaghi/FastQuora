@@ -41,7 +41,7 @@ class Factory:
     @staticmethod
     def get_answer_controller(db: Depends = Depends(get_db), redis: Depends = Depends(get_redis)) -> AnswerController:
         """
-        Returns a AnswerController instance
+        Returns an AnswerController instance
         """
         return AnswerController(redis_session=redis, session=db)
 
