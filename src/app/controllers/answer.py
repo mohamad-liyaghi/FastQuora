@@ -62,4 +62,4 @@ class AnswerController(BaseController):
         if not parent:
             raise HTTPException(status_code=404, detail="Parent answer not found.")
 
-        return await self.retrieve(parent_id=parent.id, is_deleted=False)  # TODO: add many
+        return await self.retrieve(parent_id=parent.id, is_deleted=False, many=True)

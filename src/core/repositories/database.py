@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-
-from typing import Type
+from sqlalchemy.orm.exc import NoResultFound
+from typing import Type, List, Optional
 from core.database import Base
 
 
@@ -21,7 +21,9 @@ class DatabaseRepository:
         await self.session.commit()
         return record
 
-    async def retrieve(self, join_fields: list | None = None, **kwargs) -> Type[Base]:
+    async def retrieve(
+        self, join_fields: Optional[List[str]] = None, many: bool = False, **kwargs
+    ) -> Type[Base] | List[Type[Base]] | None:
         query = select(self.model)
 
         if join_fields:
@@ -30,7 +32,14 @@ class DatabaseRepository:
 
         query = query.filter_by(**kwargs)
         result = await self.session.execute(query)
-        return result.scalars().first()
+
+        if many:
+            return result.scalars().all()
+        else:
+            try:
+                return result.scalars().first()
+            except NoResultFound:
+                return
 
     async def update(self, instance: Type[Base], data: dict) -> Type[Base]:
         for key, value in data.items():

@@ -39,7 +39,9 @@ class BaseController:
 
         return database_record
 
-    async def retrieve(self, check_cache: bool = False, check_index: bool = False, **kwargs) -> Type[GenericClass]:
+    async def retrieve(
+        self, check_cache: bool = False, check_index: bool = False, many: bool = False, **kwargs
+    ) -> Type[GenericClass]:
         """
         Retrieve a record from the database (and optionally from cache or index).
         """
@@ -56,10 +58,11 @@ class BaseController:
                 return record
 
         # Fallback to retrieve from the database
-        record = await self.database_repository.retrieve(**kwargs)
+        record = await self.database_repository.retrieve(many=many, **kwargs)
         if record:
-            await self._cache_record(record.to_dict(), check_cache)
-            await self._index_record(record.to_dict(), check_index)
+            if not many:
+                await self._cache_record(record.to_dict(), check_cache)
+                await self._index_record(record.to_dict(), check_index)
 
         return record
 
