@@ -7,5 +7,9 @@ class AnswerCreateRequest(BaseModel):
     question_uuid: UUID
 
 
+class AnswerReplyCreateRequest(BaseModel):
+    content: str
+
+
 class AnswerUpdateRequest(BaseModel):
     content: str

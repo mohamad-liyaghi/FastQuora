@@ -41,3 +41,25 @@ class AnswerController(BaseController):
         if answer.user_id != request_user_id:
             raise HTTPException(status_code=403, detail="You are not allowed to delete this answer.")
         await self.update(answer, data={"is_deleted": True})
+
+    async def create_reply(self, parent_uuid: UUID, data: dict) -> Answer:
+        parent = await self.retrieve(uuid=parent_uuid, is_deleted=False, join_fields=["question"])
+        if not parent:
+            raise HTTPException(status_code=404, detail="Parent answer not found.")
+
+        if parent.question.status in [
+            QuestionStatus.CLOSED.value,
+            QuestionStatus.DELETED.value,
+        ]:
+            raise HTTPException(status_code=400, detail="Parent question is closed or deleted.")
+
+        data["parent_id"] = parent.id
+        data["question_id"] = parent.question_id
+        return await self.create(data=data)
+
+    async def retrieve_replies(self, parent_uuid: UUID) -> list[Answer]:
+        parent = await self.retrieve(uuid=parent_uuid, is_deleted=False)
+        if not parent:
+            raise HTTPException(status_code=404, detail="Parent answer not found.")
+
+        return await self.retrieve(parent_id=parent.id, is_deleted=False, many=True)
