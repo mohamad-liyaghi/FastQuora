@@ -54,6 +54,7 @@ class AnswerController(BaseController):
             raise HTTPException(status_code=400, detail="Parent question is closed or deleted.")
 
         data["parent_id"] = parent.id
+        data["question_id"] = parent.question_id
         return await self.create(data=data)
 
     async def retrieve_replies(self, parent_uuid: UUID) -> list[Answer]:
