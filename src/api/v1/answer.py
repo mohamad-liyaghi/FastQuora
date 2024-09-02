@@ -1,6 +1,7 @@
 from fastapi.routing import APIRouter
 from fastapi import Depends, status
 from uuid import UUID
+from typing import Optional
 from core.factory import Factory
 from app.controllers import AnswerController, QuestionController
 from app.schemas.requests.answer import (
@@ -8,7 +9,11 @@ from app.schemas.requests.answer import (
     AnswerUpdateRequest,
     AnswerReplyCreateRequest,
 )
-from app.schemas.responses.answer import AnswerCreateResponse, AnswerUpdateResponse
+from app.schemas.responses.answer import (
+    AnswerCreateResponse,
+    AnswerUpdateResponse,
+    AnswerResponse,
+)
 from app.models import User
 from core.dependencies import AuthenticationRequired
 
@@ -65,3 +70,13 @@ async def create_reply(
     data = request.model_dump()
     data["user_id"] = user.id
     return await answer_controller.create_reply(parent_uuid=answer_uuid, data=data)
+
+
+@router.get("/{answer_uuid}/replies", status_code=status.HTTP_200_OK)
+async def get_replies(
+    answer_uuid: UUID,
+    _=Depends(AuthenticationRequired()),
+    answer_controller: AnswerController = Depends(Factory().get_answer_controller),
+) -> Optional[list[AnswerResponse]]:
+    """Get all replies to an answer."""
+    return await answer_controller.retrieve_replies(parent_uuid=answer_uuid)
