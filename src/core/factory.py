@@ -4,6 +4,7 @@ from app.controllers import (
     ProfileController,
     QuestionController,
     AnswerController,
+    VoteController,
 )
 from core.database import get_db
 from core.redis import get_redis
@@ -43,3 +44,10 @@ class Factory:
         Returns a AnswerController instance
         """
         return AnswerController(redis_session=redis, session=db)
+
+    @staticmethod
+    def get_vote_controller(db: Depends = Depends(get_db), redis: Depends = Depends(get_redis)) -> VoteController:
+        """
+        Returns a VoteController instance
+        """
+        return VoteController(redis_session=redis, session=db)
