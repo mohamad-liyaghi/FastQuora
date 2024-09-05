@@ -14,15 +14,16 @@ class RedisRepository:
         self.session = redis_session
         self.base_key = f"{model.__name__}:"
 
-    async def create(self, data: dict, ttl: Optional[int] = None) -> dict:
+    async def create(self, data: dict, ttl: Optional[int] = None, cache_key: Optional[str] = None) -> dict:
         """
         Create a new record in the redis
         """
         _id = data.get("id")
         if not _id:
             raise ValueError("id is required")
+        cache_key = cache_key or f"{self.base_key}{_id}"
 
-        await self.session.set(f"{self.base_key}{_id}", json.dumps(data), ex=ttl)
+        await self.session.set(cache_key, json.dumps(data), ex=ttl)
         return data
 
     async def get(self, _id: int) -> Optional[dict]:
