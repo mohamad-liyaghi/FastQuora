@@ -26,11 +26,12 @@ class RedisRepository:
         await self.session.set(cache_key, json.dumps(data), ex=ttl)
         return data
 
-    async def get(self, _id: int) -> Optional[dict]:
+    async def get(self, _id: int, cache_key: Optional[str] = None) -> Optional[dict]:
         """
         Get a record from the redis
         """
-        data = await self.session.get(f"{self.base_key}{_id}")
+        cache_key = cache_key or f"{self.base_key}{_id}"
+        data = await self.session.get(cache_key)
         return json.loads(data) if data else None
 
     async def delete(self, _id: int) -> None:

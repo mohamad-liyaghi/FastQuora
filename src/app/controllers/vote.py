@@ -9,14 +9,25 @@ class VoteController(BaseController):
         self.model = Vote
         super().__init__(model=self.model, session=session, redis_session=redis_session)
 
-    async def create_vote(self, question_id: int, user_id: int, vote: int):
+    async def create_vote(self, answer_id: int, user_id: int, vote: int):
         vote = await self.redis_repository.create(
             data={
-                "question_id": question_id,
+                "answer_id": answer_id,
                 "user_id": user_id,
                 "vote": vote,
                 "id": user_id,
             },
-            cache_key=f"vote:{question_id}:{user_id}",
+            cache_key=f"vote:{answer_id}:{user_id}",
         )
         return vote
+
+    async def get_vote(self, answer_id: int, user_id: int):
+        cached_result = await self.redis_repository.get(_id=user_id, cache_key=f"vote:{answer_id}:{user_id}")
+
+        if not cached_result:
+            database_result = await self.retrieve(user_id=user_id, answer_id=answer_id)
+            if database_result:
+                await self.redis_repository.create(data=database_result, cache_key=f"vote:{answer_id}:{user_id}")
+                return database_result
+
+        return cached_result
