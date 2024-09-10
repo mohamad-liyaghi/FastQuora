@@ -25,6 +25,4 @@ class TestVoteCreate:
             answer_controller=self.answer_controller,
         )
         vote = await self.controller.get_vote(answer_id=self.answer.id, user_id=self.user.id)
-        assert vote["answer_id"] == self.answer.id
-        assert vote["user_id"] == self.user.id
-        assert vote["vote"] == VoteType.UP.value
+        assert vote

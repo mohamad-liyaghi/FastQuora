@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.schema import PrimaryKeyConstraint, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.schema import PrimaryKeyConstraint
 from app.enums.vote import VoteType
 from core.database import Base
 
