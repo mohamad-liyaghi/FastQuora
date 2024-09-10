@@ -71,8 +71,9 @@ It allows users to ask questions, view questions, and update them. Also, thanks 
 The answer component allows users to answer questions, view answers, and update them.
 
 ### Votes
-The vote component allows users to vote on answers.
-Votes are initially stored in redis but a celery task inserts them to database.
+The vote system is quite simple.
+Users can vote on answers to show their agreement or disagreement with the answer.
+Votes are all saved directly in the database.
 
 ## Installation
 You can run FastQuora either using Docker Compose or Kubernetes in either a local or production environment.
