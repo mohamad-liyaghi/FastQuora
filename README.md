@@ -17,7 +17,7 @@
 - [Run Tests](#run-tests)
 
 ## Introduction
-FastQuora is a question-and-answer platform like <a href="https://www.quora.com/">Quora</a> that allows users to ask questions, answer questions, and vote on answers.
+FastQuora is a question-and-answer platform like <a href="https://www.quora.com/">Quora</a> that allows users to ask or find questions, answer questions, and vote on answers.
 This project comes with a search feature that allows users to search for questions and answers based on keywords. Also, a caching layer is used to increase performance.
 <br><br>
 This project is using `repository pattern` and handles all operations using repositories and controllers.<br>
