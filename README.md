@@ -18,10 +18,10 @@
 
 ## Introduction
 FastQuora is a question-and-answer platform like <a href="https://www.quora.com/">Quora</a> that allows users to ask questions, answer questions, and vote on answers.
-This project comes with a search feature that allows users to search for questions and answers based on keywords. Also a caching layer is used to increase performance.
-<br>
-This project is using `repository pattern` and handles all operations using repositories and controllers.
-This is a high level architecture of the project:
+This project comes with a search feature that allows users to search for questions and answers based on keywords. Also, a caching layer is used to increase performance.
+<br><br>
+This project is using `repository pattern` and handles all operations using repositories and controllers.<br>
+This is a high level architecture of the project:<br>
 <img src="./images/structure.png">
 
 ## Technologies
@@ -38,9 +38,9 @@ This is a high level architecture of the project:
 </div>
 <br>
 This project uses <a href="https://fastapi.tiangolo.com/">FastAPI</a> as the backend framework, with <a href="https://www.postgresql.org/">PostgreSQL</a> for database management.
-In order to provide search functionality, <a href="https://www.elastic.co/">Elasticsearch</a> is used to index and search questions and answers and for increasing performance we use <a href="https://redis.io/">Redis</a> as a caching layer.
+In order to provide search functionality, <a href="https://www.elastic.co/">Elasticsearch</a> is used to index and search questions and answers and for increasing performance. It uses <a href="https://redis.io/">Redis</a> as a caching layer.<br>
 The application is containerized using <a href="https://www.docker.com/">Docker</a> and orchestrated with <a href="https://kubernetes.io/">Kubernetes</a>.
-Also for instrumentation and monitoring, <a href="https://www.jaegertracing.io/">Jaeger</a> is used for distributed tracing and <a href="https://opentelemetry.io/">OpenTelemetry</a> for observability.
+Also for instrumentation and monitoring, <a href="https://www.jaegertracing.io/">Jaeger</a> is used for distributed tracing and <a href="https://opentelemetry.io/">OpenTelemetry</a> for observability.<br>
 For the unit-testing, <a href="https://docs.pytest.org/en/stable/">pytest</a> is used to ensure code quality and reliability.
 
 ## Monitoring
@@ -48,7 +48,7 @@ For the unit-testing, <a href="https://docs.pytest.org/en/stable/">pytest</a> is
 ### OpenTelemetry
 This project comes with monitoring capabilities which are handled by OpenTelemetry. OpenTelemetry is used to collect, process, and export telemetry data such as traces, metrics, and logs.
 To visualize the metrics, we use Jaeger in this project.
-<br>
+<br><br>
 Here is a sample of the metrics in Jaeger:
 <br>
 <img src="./images/jaeger.png">
