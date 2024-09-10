@@ -35,11 +35,20 @@ This project utilizes a number of modern technologies:
   <img style="height:30px;" alt="pytest" src="https://img.shields.io/badge/Pytest-0A9EDC.svg?style=flat&logo=pytest&logoColor=white">
   <img style="height:30px;" alt="jaeger" src="https://img.shields.io/badge/Jaeger-FF6F00.svg?style=flat&logo=jaeger&logoColor=white">
   <img style="height:30px;" alt="opentelemetry" src="https://img.shields.io/badge/OpenTelemetry-FF6F00.svg?style=flat&logo=opentelemetry&logoColor=white">
+<img style="height:30px;" alt="github actions" src="https://img.shields.io/badge/GitHub_Actions-2088FF.svg?style=flat&logo=github-actions&logoColor=white">
 </div>
 
 FastQuora uses [FastAPI](https://fastapi.tiangolo.com/) as the backend framework and [PostgreSQL](https://www.postgresql.org/) for database management. It integrates [Elasticsearch](https://www.elastic.co/) to index and search questions and answers, and uses [Redis](https://redis.io/) as a caching layer to boost performance.
 
 The application is containerized using [Docker](https://www.docker.com/) and managed with [Kubernetes](https://kubernetes.io/). For monitoring and observability, the project employs [Jaeger](https://www.jaegertracing.io/) for distributed tracing and [OpenTelemetry](https://opentelemetry.io/) for telemetry data collection. Unit tests are written with [pytest](https://docs.pytest.org/en/stable/) to ensure code reliability.
+
+Additionally, **GitHub Actions** is used for continuous integration and deployment (CI/CD) to automate testing and deployment pipelines. Every pull request triggers the test suite, ensuring that the code is always in a working state. The CI/CD process includes:
+
+- Build and push the image
+- Running all unit tests with `pytest` to validate changes.
+- Running all unit tests on a production-like environment.
+- Deploying the application to cloud infrastructure.
+
 
 ## Monitoring
 
