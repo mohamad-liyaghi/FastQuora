@@ -18,7 +18,11 @@
 
 ## Introduction
 FastQuora is a question-and-answer platform like <a href="https://www.quora.com/">Quora</a> that allows users to ask questions, answer questions, and vote on answers.
-This project comes with a search feature that allows users to search for questions and answers based on keywords.
+This project comes with a search feature that allows users to search for questions and answers based on keywords. Also a caching layer is used to increase performance.
+<br>
+This project is using `repository pattern` and handles all operations using repositories and controllers.
+This is a high level architecture of the project:
+<img src="./images/structure.png">
 
 ## Technologies
 <div>
@@ -46,6 +50,8 @@ This project comes with monitoring capabilities which are handled by OpenTelemet
 To visualize the metrics, we use Jaeger in this project.
 <br>
 Here is a sample of the metrics in Jaeger:
+<br>
+<img src="./images/jaeger.png">
 
 ## Application
 
@@ -59,7 +65,7 @@ Also, this project doesn't collect any personal information from users, so users
 
 ### Questions
 The question component is the heart of this project.
-It allows users to ask questions, view questions and update them. Also, thanks to the search feature, users can search for questions based on keywords.
+It allows users to ask questions, view questions, and update them. Also, thanks to the search feature, users can search for questions based on keywords.
 
 ### Answers
 The answer component allows users to answer questions, view answers, and update them.
@@ -114,7 +120,7 @@ make k8s
 ```
 
 Now project is running on your local machine.
-Backend is running on `http://localhost:8000` and jaeger is running on `http://localhost:16686`.
+Backend is running on <a href="http://localhost:8000">http://localhost:8000</a> and Jaeger is running on <a href="http://localhost:16686">http://localhost:16686</a>.
 
 ## Run Tests
 Most parts of the application are covered by unit tests to ensure code quality and reliability.
@@ -124,3 +130,5 @@ make test
 ```
 
 Then You should see the following result:
+<br>
+<img src="./images/test_result.png">
