@@ -1,17 +1,15 @@
-from typing import Type, Optional, TypeVar
+from typing import Type, Optional, TypeVar, Union
 from elasticsearch import NotFoundError
 from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
-from sqlalchemy.orm import DeclarativeBase
-
 from core.database import Base
 from core.repositories import DatabaseRepository, RedisRepository, ElasticRepository
 
-GenericClass = TypeVar("GenericClass", bound="Base")
+T = TypeVar("T", bound=Base)
 
 
 class BaseController:
-    def __init__(self, model: Type[Base], session: AsyncSession, redis_session: Redis):
+    def __init__(self, model: Type[T], session: AsyncSession, redis_session: Redis):
         self.model = model
         self.database_repository = DatabaseRepository(model=model, session=session)
         self.redis_repository = RedisRepository(model=model, redis_session=redis_session)
@@ -23,7 +21,7 @@ class BaseController:
         cache: bool = False,
         ttl: Optional[int] = 120,
         save_elastic: bool = False,
-    ) -> Type[GenericClass]:
+    ) -> T:
         """
         Create a new record in the database (and optionally cache and index it).
         """
@@ -41,7 +39,7 @@ class BaseController:
 
     async def retrieve(
         self, check_cache: bool = False, check_index: bool = False, many: bool = False, **kwargs
-    ) -> Type[GenericClass]:
+    ) -> Union[T, list[T], None]:
         """
         Retrieve a record from the database (and optionally from cache or index).
         """
@@ -68,11 +66,11 @@ class BaseController:
 
     async def update(
         self,
-        instance: Type[Base],
+        instance: T,
         data: dict,
         check_cache: bool = False,
         check_index: bool = False,
-    ) -> Type[GenericClass]:
+    ) -> T:
         """
         Update a record in the database (and optionally in cache and index).
         """
@@ -85,7 +83,7 @@ class BaseController:
 
     async def delete(
         self,
-        instance: Type[Base],
+        instance: T,
         delete_cache: bool = False,
         delete_index: bool = False,
     ) -> None:
@@ -99,14 +97,14 @@ class BaseController:
         # Delete the record from the database
         await self.database_repository.delete(instance=instance)
 
-    async def search_elastic(self, query: dict) -> dict:
+    async def search_elastic(self, query: dict) -> Optional[dict]:
         """
         Search for records in Elasticsearch.
         """
         try:
             return await self.elastic_repository.search(query)
         except NotFoundError:
-            return
+            return None
 
     # Private helper methods
     async def _cache_record(self, data: dict, cache: bool, ttl: Optional[int] = 120):
@@ -117,13 +115,13 @@ class BaseController:
         if save_elastic:
             await self.elastic_repository.create(data=data)
 
-    async def _retrieve_from_cache(self, record_id: int) -> Optional[Type[Base]]:
+    async def _retrieve_from_cache(self, record_id: int) -> Optional[T]:
         record = await self.redis_repository.get(_id=record_id)
         return self.model(**record) if record else None
 
-    async def _retrieve_from_elastic(self, record_id: int) -> DeclarativeBase | None:
+    async def _retrieve_from_elastic(self, record_id: int) -> Optional[T]:
         try:
-            record = await self.elastic_repository.retrieve(id=record_id)
+            record = await self.elastic_repository.retrieve(_id=record_id)
             return self.model(**record["_source"])
         except NotFoundError:
             return None
@@ -134,8 +132,8 @@ class BaseController:
 
     async def _update_elastic(self, record_id: int, data: dict, is_indexed: bool):
         if is_indexed:
-            await self.elastic_repository.update(id=record_id, data=data)
+            await self.elastic_repository.update(_id=record_id, data=data)
 
     async def _delete_from_elastic(self, record_id: int, is_indexed: bool):
         if is_indexed:
-            await self.elastic_repository.delete(id=record_id)
+            await self.elastic_repository.delete(_id=record_id)
