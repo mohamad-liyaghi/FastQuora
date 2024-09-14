@@ -17,14 +17,14 @@ class ElasticRepository:
 
         return await Elastic.index(index=self.model.__tablename__, body=data, id=data["id"])
 
-    async def retrieve(self, id: int) -> dict:
-        return await Elastic.get(index=self.model.__tablename__, id=id)
+    async def retrieve(self, _id: int) -> dict:
+        return await Elastic.get(index=self.model.__tablename__, id=_id)
 
-    async def update(self, id: int, data: dict) -> dict:
-        return await Elastic.update(index=self.model.__tablename__, body={"doc": data}, id=id)
+    async def update(self, _id: int, data: dict) -> dict:
+        return await Elastic.update(index=self.model.__tablename__, body={"doc": data}, id=_id)
 
-    async def delete(self, id: int) -> dict:
-        return await Elastic.delete(index=self.model.__tablename__, id=id)
+    async def delete(self, _id: int) -> dict:
+        return await Elastic.delete(index=self.model.__tablename__, id=_id)
 
     async def search(self, query: dict) -> dict:
         return await Elastic.search(index=self.model.__tablename__, body=query)
