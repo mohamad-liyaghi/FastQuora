@@ -1,1 +1,1 @@
-from .auth import AuthBackend, AuthenticationMiddleware
+from .auth import AuthBackend, AuthenticationMiddleware  # noqa

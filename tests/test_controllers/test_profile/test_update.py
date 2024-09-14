@@ -1,7 +1,6 @@
 import pytest_asyncio
 import pytest
 from fastapi import HTTPException
-from uuid import uuid4
 
 
 class TestProfileController:
