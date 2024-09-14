@@ -2,8 +2,6 @@ from fastapi import HTTPException
 from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 from redis import Redis
-from watchfiles import awatch
-
 from app.models import Vote
 from app.controllers import AnswerController
 from core.controllers import BaseController

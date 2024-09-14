@@ -85,6 +85,7 @@ PyYAML==6.0.2
 redis==5.0.8
 rich==13.7.1
 rsa==4.9
+ruff==0.6.5
 setuptools==73.0.1
 shellingham==1.5.4
 six==1.16.0
