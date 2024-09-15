@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-quora-celery
+  labels:
+    app:
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fast-quora-celery
+  template:
+    metadata:
+      labels:
+        app: fast-quora-celery
+    spec:
+      containers:
+        - name: celery
+          image: ml06py/fast_quora:latest
+          command: [ "/bin/sh" ]
+          args: [ "./docker/scripts/celery.sh" ]
+
+          volumeMounts:
+            - name: env-file
+              mountPath: /envs/.env
+              subPath: .env
+          envFrom:
+            - configMapRef:
+                name: fast-quora-env
+          ports:
+            - containerPort: 8000
+
+      volumes:
+        - name: env-file
+          configMap:
+            name: fast-quora-env-file
+            items:
+              - key: .env
+                path: .env

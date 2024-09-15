@@ -24,4 +24,5 @@ class Vote(Base):
             "user_id": self.user_id,
             "answer_id": self.answer_id,
             "vote_type": self.vote_type,
+            "source": "database",
         }

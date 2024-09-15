@@ -21,9 +21,9 @@ class TestVoteCreate:
             vote=VoteType.UP.value,
             answer_controller=self.answer_controller,
         )
-        assert vote.answer_id == self.answer.id
-        assert vote.user_id == self.user.id
-        assert vote.vote_type == VoteType.UP.value
+        assert vote["answer_id"] == self.answer.id
+        assert vote["user_id"] == self.user.id
+        assert vote["vote_type"] == VoteType.UP.value
 
     @pytest.mark.asyncio
     async def test_create_vote_twice_updates_the_older_vote(self):
@@ -33,8 +33,9 @@ class TestVoteCreate:
             vote=VoteType.DOWN.value,
             answer_controller=self.answer_controller,
         )
-        assert vote.vote_type == VoteType.DOWN.value
-        assert vote.answer_id == self.answer.id
+        assert vote["vote_type"] == VoteType.DOWN.value
+        assert vote["source"] == "cache"
+        assert vote["answer_id"] == self.answer.id
 
     @pytest.mark.asyncio
     async def test_create_for_invalid_answer_fails(self):
