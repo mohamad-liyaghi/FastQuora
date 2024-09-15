@@ -30,7 +30,16 @@ class VoteController(BaseController):
         return vote
 
     async def get_vote(self, answer_id: int, user_id: int):
-        database_result = await self.retrieve(user_id=user_id, answer_id=answer_id)
-        if not database_result:
-            return
-        return database_result.to_dict()
+        cached_result = await self.redis_repository.get(_id=user_id, cache_key=f"vote:{answer_id}:{user_id}")
+
+        if not cached_result:
+            database_result = await self.retrieve(user_id=user_id, answer_id=answer_id)
+
+            if database_result:
+                await self.redis_repository.create(
+                    data=database_result.to_dict(),
+                    cache_key=f"vote:{answer_id}:{user_id}",
+                )
+                return database_result
+
+        return cached_result
