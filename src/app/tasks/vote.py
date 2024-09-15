@@ -8,7 +8,7 @@ import asyncio
 @shared_task
 def auto_insert_vote_from_cache_to_db():
     """
-    This task will insert the votes from cache to the database periodically.
+    This task will insert the votes from the cache to the database periodically.
     """
     cache_key = "vote:*:*"
     redis = asyncio.run(get_redis())

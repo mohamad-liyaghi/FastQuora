@@ -29,6 +29,8 @@ This project utilizes a number of modern technologies:
   <img style="height:30px;" alt="fastapi" src="https://img.shields.io/badge/FastAPI-009688.svg?style=flat&logo=fastapi&logoColor=white">
   <img style="height:30px;" alt="postgresql" src="https://img.shields.io/badge/PostgreSQL-316192.svg?style=flat&logo=postgresql&logoColor=white">
   <img style="height:30px;" alt="elastic" src="https://img.shields.io/badge/Elasticsearch-005571.svg?style=flat&logo=elasticsearch&logoColor=white">
+  <img style="height:30px;" alt="celery" src="https://img.shields.io/badge/Celery-37814A.svg?style=flat&logo=celery&logoColor=white">
+  <img style="height:30px;" alt="celery beat" src="https://img.shields.io/badge/Celery_Beat-37814A.svg?style=flat&logo=celery&logoColor=white">
   <img style="height:30px;" alt="docker" src="https://img.shields.io/badge/Docker-2496ED.svg?style=flat&logo=docker&logoColor=white">
   <img style="height:30px;" alt="kubernetes" src="https://img.shields.io/badge/Kubernetes-326CE5.svg?style=flat&logo=kubernetes&logoColor=white">
   <img style="height:30px;" alt="redis" src="https://img.shields.io/badge/Redis-DC382D.svg?style=flat&logo=redis&logoColor=white">
@@ -74,7 +76,8 @@ The question component is the core of FastQuora. Users can ask, view, and update
 The answer component allows users to respond to questions, view answers, and update their own answers.
 
 ### Votes
-FastQuora includes a simple voting system where users can vote on answers to indicate agreement or disagreement. All votes are stored in the database.
+FastQuora includes a voting system that allows users to upvote or downvote answers.
+To increase performance, votes are initially stored in Redis and then written to the database by a background task.
 
 ## Installation
 FastQuora can be run using Docker Compose or Kubernetes in either a local or production environment.
