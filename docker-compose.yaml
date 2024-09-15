@@ -21,6 +21,17 @@ services:
       - ./envs/.env.local
     volumes:
       - ./envs/.env.local:/backend/.env
+  celery-beat:
+    extends:
+      service: celery-beat
+      file: docker-compose.base.yaml
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - ./envs/.env.local
+    volumes:
+      - ./envs/.env.local:/backend/.env
   postgres:
     extends:
       service: postgres

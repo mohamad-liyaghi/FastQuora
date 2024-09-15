@@ -28,6 +28,16 @@ services:
       - main
     depends_on:
       - backend
+  celery-beat:
+    container_name: 'fast-quora-celery-beat'
+    command: sh "docker/scripts/celery-beat.sh"
+    tty: true
+    volumes:
+      - .:/backend
+    networks:
+      - main
+    depends_on:
+      - backend
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'
