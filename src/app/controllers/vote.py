@@ -23,23 +23,30 @@ class VoteController(BaseController):
         if not answer:
             raise HTTPException(status_code=404, detail="Answer not found.")
 
-        if vote_obj := await self.retrieve(user_id=user_id, answer_id=answer.id):
-            vote = await self.update(vote_obj, {"vote_type": vote})
-        else:
-            vote = await self.create(data={"answer_id": answer.id, "user_id": user_id, "vote_type": vote})
-        return vote
+        vote_instance = await self.redis_repository.create(
+            cache_key=f"vote:{answer.id}:{user_id}",
+            data={
+                "id": answer.id,
+                "user_id": user_id,
+                "answer_id": answer.id,
+                "vote_type": vote,
+                "source": "cache",
+            },
+        )
+        return vote_instance
 
-    async def get_vote(self, answer_id: int, user_id: int):
+    async def get_vote(self, answer_id: int, user_id: int) -> dict:
         cached_result = await self.redis_repository.get(_id=user_id, cache_key=f"vote:{answer_id}:{user_id}")
 
         if not cached_result:
             database_result = await self.retrieve(user_id=user_id, answer_id=answer_id)
+            dict_result = database_result.to_dict() if database_result else None
 
             if database_result:
                 await self.redis_repository.create(
                     data=database_result.to_dict(),
                     cache_key=f"vote:{answer_id}:{user_id}",
                 )
-                return database_result
+                return dict_result
 
         return cached_result
