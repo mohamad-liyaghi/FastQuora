@@ -24,6 +24,14 @@ class DatabaseRepository:
         await self.session.commit()
         return record
 
+    async def bulk_create(self, data: List[dict]) -> List[T]:
+        if not data:
+            raise ValueError("Data cannot be empty")
+        records = [self.model(**record) for record in data]
+        self.session.add_all(records)
+        await self.session.commit()
+        return records
+
     async def retrieve(
         self, join_fields: Optional[List[str]] = None, many: bool = False, **kwargs
     ) -> Union[T, List[T], None]:
