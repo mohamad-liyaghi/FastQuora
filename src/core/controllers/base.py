@@ -37,6 +37,9 @@ class BaseController:
 
         return database_record
 
+    async def bulk_create(self, data: list[dict]) -> list[T]:
+        return await self.database_repository.bulk_create(data)
+
     async def retrieve(
         self, check_cache: bool = False, check_index: bool = False, many: bool = False, **kwargs
     ) -> Union[T, list[T], None]:
