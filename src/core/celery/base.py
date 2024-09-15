@@ -10,6 +10,6 @@ celery.autodiscover_tasks(["app.tasks"])
 celery.conf.beat_schedule = {
     "auto_insert_vote_from_cache_to_db": {
         "task": "app.tasks.vote.auto_insert_vote_from_cache_to_db",
-        "schedule": crontab(minute="*/1"),
+        "schedule": crontab(hour="*", minute="1", day_of_week="*"),
     }
 }
