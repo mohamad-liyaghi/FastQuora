@@ -18,6 +18,16 @@ services:
           condition: service_healthy
         jaeger:
           condition: service_started
+  celery:
+    container_name: 'fast-quora-celery'
+    command: sh "docker/scripts/celery.sh"
+    tty: true
+    volumes:
+      - .:/backend
+    networks:
+      - main
+    depends_on:
+      - backend
   postgres:
     container_name: 'fast-quora-postgres'
     image: 'postgres:15.4-alpine'

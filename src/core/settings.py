@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     JWT_ALGORITHM: str
     JWT_EXPIRATION_MINUETS: int
+    CELERY_BROKER_URL: str
+    CELERY_RESULT_BACKEND: str
 
 
 settings: Settings = Settings()

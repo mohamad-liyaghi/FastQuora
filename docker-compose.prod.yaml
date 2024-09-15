@@ -8,6 +8,15 @@ services:
       - ./envs/.env.prod
     volumes:
       - ./envs/.env.prod:/backend/.env
+  celery:
+    image: ml06py/fast_quora:latest
+    extends:
+      service: celery
+      file: docker-compose.base.yaml
+    env_file:
+      - ./envs/.env.prod
+    volumes:
+      - ./envs/.env.prod:/backend/.env
   postgres:
     extends:
       service: postgres
