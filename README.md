@@ -82,8 +82,10 @@ To increase performance, votes are initially stored in Redis and then written to
 ## Installation
 FastQuora can be run using Docker Compose or Kubernetes in either a local or production environment.
 
-### Docker Compose
-To run FastQuora using Docker Compose:
+### Clone Repository
+To access the project, you should first clone the repository and then navigate to the project directory.
+Run the following commands in your terminal:
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/mohamad-liyaghi/FastQuora.git
@@ -92,7 +94,10 @@ To run FastQuora using Docker Compose:
     ```bash
     cd FastQuora/
     ```
-3. Run the application:
+
+### Docker Compose
+After you've cloned the repository and navigated to the project directory, you can run FastQuora using Docker Compose by following these steps:
+1. Run the application:
     ```bash
     make run
     ```
@@ -103,15 +108,7 @@ To run FastQuora using Docker Compose:
 
 ### Kubernetes
 To run FastQuora using Kubernetes:
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/mohamad-liyaghi/FastQuora.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd FastQuora/
-    ```
-3. Create the ConfigMaps:
+1. Create the ConfigMaps:
     ```bash
     make local_confmap
     ```
@@ -119,7 +116,7 @@ To run FastQuora using Kubernetes:
     ```bash
     make prod_confmap
     ```
-4. Deploy the application:
+2. Deploy the application:
     ```bash
     make k8s
     ```
