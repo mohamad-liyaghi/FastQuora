@@ -6,7 +6,7 @@ import asyncio
 
 
 @shared_task
-def auto_insert_vote_from_cache_to_db():
+def auto_insert_vote_from_cache_to_db() -> str:
     """
     This task will insert the votes from the cache to the database periodically.
     """
@@ -27,6 +27,7 @@ def auto_insert_vote_from_cache_to_db():
         asyncio.run(vote_controller.bulk_create(new_records))
         asyncio.run(redis.delete(cache_key))
         return f"Inserted {len(new_records)} votes from cache to database."
-
+    except ValueError:
+        return "Sth went wrong while inserting votes from cache to database."
     finally:
         asyncio.run(db_gen.aclose())
